@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <title>Battleship</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <meta charset="utf-8" />
+  <script type="text/javascript" src="code.js"></script> <!-- Il codice presente nel file esterno viene eseguito -->
+</head>
+
+<body>
+
+  <div id="container">  <!-- Inizio contenitore principale -->
+
+    <div id="title">  <!-- Inizio titolo -->
+      <h1 class="center redshadow">BATTAGLIA NAVALE</h1>
+      <h4 class="center">ver 0.1</h4>
+    </div>  <!-- Fine titolo -->
+
+    <div id="player">  <!-- Inizio giocatore -->
+      <h3 id="playerTitle">GIOCATORE 1</h3>
+    </div>  <!-- Fine giocatore -->
+
+    <div class="grids"> <!-- Inizio GRIGLIE G1-->
+
+      <div id="grid_1">
+        <script type="text/javascript"> // Crea le tabelle 10x10
+          createTable_10_10("grid_1");
+        </script>
+      </div>
+
+      <div id="grid_2">
+        <script type="text/javascript">
+          createTable_10_10("grid_2");
+        </script>
+      </div>
+
+    </div>  <!-- Fine GRIGLIE G1 -->
+
+    <div class="grids"> <!-- Inizio GRIGLIE G2-->
+
+      <div id="grid_3">
+        <script type="text/javascript">  // Crea le tabelle 10x10
+          createTable_10_10("grid_3");
+        </script>
+      </div>
+
+      <div id="grid_4">
+        <script type="text/javascript">
+          createTable_10_10("grid_4");
+        </script>
+      </div>
+
+    </div> <!-- Fine GRIGLIE G2 -->
+
+    <script type="text/javascript">setup()</script>
+
+    <div id="console" class="console"> <!-- Inizio CONSOLE -->
+
+    <script>consoleSettingMsg()</script>
+
+      <table class="console">
+        <tr>
+          <th>#</th>
+          <th>Tipo di nave</th>
+          <th>Dimensione</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Portaerei</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Corrazzate</td>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Sottomarini</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Incrociatori</td>
+          <td>2</td>
+        </tr>
+      </table>
+
+    </div> <!-- Fine terminali -->
+
+    <div id="buttons"> <!-- Inizio bottoni - ID è stato modificato in class per anomalia css -->
+      <a href="#" onclick="setupDone();return false;" class="blackshadow">FATTO!</a>
+    </div>  <!-- Fine bottoni -->
+
+  </div> <!-- Fine contenitore principale -->
+
+</body>
+
+</html>

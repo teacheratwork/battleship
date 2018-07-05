@@ -1,0 +1,157 @@
+/* REGOLE PER TAG */
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-image: url("./images/background_fhd.jpg");
+}
+
+h1 {
+  color: black;
+  font-family: impact;
+  letter-spacing: 1px;
+  padding: 0;
+  margin: 5px 0px 0px 0px;
+}
+
+h3 {
+  font-family: impact;
+  padding: 0;
+  margin: 10px 0;
+}
+
+h4 {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+table td {
+    padding: 15px;
+}
+
+/* REGOLE PER CLASSI GENERICHE */
+
+.center {
+  text-align: center;
+}
+
+.redshadow {
+  text-shadow: 2px 2px 4px red;
+}
+
+.blackshadow {
+  text-shadow: 2px 2px 4px black;
+}
+
+.hidden {
+  display: none;
+}
+
+.inBlock {
+  display: inline-block;
+}
+
+.miniature td {
+  padding: 8px;
+}
+
+.miniature {}
+
+
+/* REGOLE ASSOCIATE AI DIFFERENTI CONTENITORI */
+
+#container {
+/*  border: 2px solid blue; */
+}
+
+#title {
+/*  border: solid green; */
+/*  background-image: url("./images/background.jpg"); */
+}
+
+#player {
+/*  border: solid blue; */
+  text-align: center;
+  margin: 0;
+}
+
+div.grids {
+/*  border: solid yellow; */
+  text-align: center;
+}
+
+table.grids, table.grids td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table.grids {
+  margin-bottom: 15px;
+}
+
+#grid_1, #grid_2, #grid_3, #grid_4 {
+  margin: 0px 10px 0px 10px;
+  font-size: 80%;
+}
+
+div.console {
+  min-width: 315px;
+  margin: 0 auto;
+  border: solid gray;
+  background: black;
+/*  height: 50px; */
+  width: 50%;
+  text-align: center;
+}
+
+p.console {
+  color: lightgray;
+  padding: 10px 10px 0 10px;
+  font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
+  font-size: 90%;
+/*  border: 1px solid white; */
+  margin:0;
+}
+
+table.console, table.console tr, table.console th, table.console td {
+  border: 2px dashed lightgray;
+  color: lightgray;
+  border-collapse: collapse;
+  font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
+  text-align: center;
+  padding: 10px;
+  font-size: 95%;
+
+}
+
+table.console {
+  margin: 15px auto;
+  width: 50%;
+}
+
+#buttons {
+/*  border: solid orange; */
+  text-align:center;
+  margin-top: 20px;
+}
+
+#buttons a {
+  width: 80px;
+  background: red;
+  border: 1px solid red;
+  border-radius: 3px;
+  color: white;
+  display: inline-block;
+  text-decoration: none;
+  padding: 5px 10px;
+  font-family: impact;
+  letter-spacing: 2px;
+}
+
+#buttons a:hover {
+  background: white;
+  border: 1px solid red;
+  color: red;
+}
