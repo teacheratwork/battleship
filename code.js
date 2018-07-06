@@ -13,7 +13,7 @@ var turn = 0;
 // Se lo stato è 2 sulla cella c'è una nave colpita
 var status_grid1 = [];
 var status_grid2 = [];
-var status_grids = [status_grid1, status_grid2];
+var status_grids = [0,status_grid1, status_grid2];
 
 //controlla se il turno è pari (G1) oppure dispari (G2)
 function isEven(value) {
@@ -47,10 +47,13 @@ function setShip(td)
   var n_grid = parti[1];   // 1 se grid1, 2 se grid 2
   var x = parti[2];
 
-  // Guardo lo stato della cella
+  // Recupero l'array corretto
   var status_grid = status_grids[n_grid];
+
+  // Guardo lo stato della cella
   var status = status_grid[x];
 
+  // Lo cambio e coloro
   if (x == 0)
   {
     // Aggiungi nave
@@ -70,7 +73,47 @@ function setShip(td)
 
 
 // TODO: funziona che disegna la tabella sulla base dell'array "grid"
+// div_id: div in cui disegnare
+// player_n: numero del giocatore: 1 o 2
+// mode: 0 per remind piccolo della propria plancia, 1 per plancia d'attacco
+function draw_table(div_id, player_n, mode)
+{
+  // Recupero l'array corretto
+  var status_grid = status_grids[player_n];
 
+  var div = document.getElementById(id);
+  row = null;
+  cell = null;
+  var table = document.createElement("table"); // metodo DOM per creare un elemento
+  table.setAttribute("class", "grids"); // metodo DOM per impostare un attributo in un elemento
+
+  for (var i = 0; i < 10; i++) {
+    row = table.insertRow();  // metodo DOM per creare linee nella tabella
+
+    for (var j = 0; j < 10; j++) {
+        cell_number = (i*10+j);
+        cell = row.insertCell();
+        cell.setAttribute("id", id + "_" + cell_number); // attribuisce un id progressivo ad ogni cella
+        
+        // TODO: aggiornare questa parte. andrebbe in css
+        var status = status_grid[cell_number];
+
+        if (status == 0)
+            cell.style.backgroundColor = "white";
+        if (status == 1)
+            cell.style.backgroundColor = "lightgray";
+        if (status == 2)
+            cell.style.backgroundColor = "red";
+
+				// attribuisce la funzione per il setup delle navi sulle celle delle tabella di proprietÃ  del giocatore
+				if (mode == 1) {
+          cell.setAttribute("onclick", "setShip(this)");
+        }
+    }
+
+	div.appendChild(table);
+  }
+}
 
 // Crea le griglie di gioco dei giocatori
 function createTable_10_10(id) {
