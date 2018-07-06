@@ -72,7 +72,7 @@ function setShip(td)
 }
 
 
-// TODO: funziona che disegna la tabella sulla base dell'array "grid"
+// TODO: funzione che disegna la tabella sulla base dell'array "grid"
 // div_id: div in cui disegnare
 // player_n: numero del giocatore: 1 o 2
 // mode: 0 per remind piccolo della propria plancia, 1 per plancia d'attacco
@@ -106,8 +106,12 @@ function draw_table(div_id, player_n, mode)
             cell.style.backgroundColor = "red";
 
 				// attribuisce la funzione per il setup delle navi sulle celle delle tabella di proprietÃ  del giocatore
-				if (mode == 1) {
+				if (mode == 0) {
           cell.setAttribute("onclick", "setShip(this)");
+        }
+
+        if (mode == 1) {
+          cell.setAttribute("onclick", "hit(this)");
         }
     }
 
