@@ -39,13 +39,17 @@ function createGrids(n)
 // colora le celle durante il posizionamento
 function setShip(td) 
 {
+  var id = td.getAttribute("id");
   // Recuperiamo la chiave per entrare nell'array
-  var parti = td.split("_");
-  var id = parti[0];
-  var x = parti[1];
+  var parti = id.split("_");
+  var id = parti[0] + "_" + parti[1];
+  var n_grid = parti[1];   // 1 se grid1, 2 se grid 2
+  var x = parti[2];
 
-  alert(id);
-  alert(x);
+  // Guardo lo stato della cella
+  
+
+
 
 
   // In questa parte colora anche la cella per dare un feedback grafico al giocatore
