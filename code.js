@@ -13,6 +13,7 @@ var turn = 0;
 // Se lo stato è 2 sulla cella c'è una nave colpita
 var status_grid1 = [];
 var status_grid2 = [];
+var status_grids = [status_grid1, status_grid2];
 
 //controlla se il turno è pari (G1) oppure dispari (G2)
 function isEven(value) {
@@ -47,17 +48,24 @@ function setShip(td)
   var x = parti[2];
 
   // Guardo lo stato della cella
-  
+  var status_grid = status_grids[n_grid];
+  var status = status_grid[x];
 
+  if (x == 0)
+  {
+    // Aggiungi nave
+    status_grid[x] = 1;
 
-
-
-  // In questa parte colora anche la cella per dare un feedback grafico al giocatore
-  if (td.style.backgroundColor === "white") {
     td.style.backgroundColor = "lightgray";
-  } else if (td.style.backgroundColor === "lightgray") {
-      td.style.backgroundColor = "white";
   }
+  else
+  {
+    // Rimuovi nave
+    status_grid[x] = 0;
+
+    td.style.backgroundColor = "white";
+  }
+
 }
 
 
