@@ -1,18 +1,66 @@
+// Codice logico del software. Gestisce la creazione degli oggetti
+// il cambio di turni e fasi
+// gli eventi principali
+
+
+// Indica il turno di gioco. Se pari, giocatore 1 di turno
 var turn = 0;
 
+// Array di oggetti che indicano lo stato della singola cella della battaglia
+// Nella chiave è presente il nome della cella "A1 - B3 - ecc...."
+// Se lo stato è 0 la cella è vuota
+// Se lo stato è 1 sulla cella c'è una nave
+// Se lo stato è 2 sulla cella c'è una nave colpita
+var status_grid1 = [];
+var status_grid2 = [];
 
 //controlla se il turno è pari (G1) oppure dispari (G2)
-
 function isEven(value) {
-	if (value%2 == 0)
+  if (value%2 == 0)
 		return true;
 	else
 		return false;
 }
 
+// Crea le griglie array per la battaglia  navale
+// n è il numero di celle totali (100)
+function createGrids(n)
+{
+  for (var x = 0; x < n; x++)
+  {
+        // var letter = String.fromCharCode(65 + y);
+        // var number = x+1;
+        // var cell_name = letter + number;
+        status_grid1[x] = 0;
+        status_grid2[x] = 0;
+  }
+}
+
+// colora le celle durante il posizionamento
+function setShip(td) 
+{
+  // Recuperiamo la chiave per entrare nell'array
+  var parti = td.split("_");
+  var id = parti[0];
+  var x = parti[1];
+
+  alert(id);
+  alert(x);
+
+
+  // In questa parte colora anche la cella per dare un feedback grafico al giocatore
+  if (td.style.backgroundColor === "white") {
+    td.style.backgroundColor = "lightgray";
+  } else if (td.style.backgroundColor === "lightgray") {
+      td.style.backgroundColor = "white";
+  }
+}
+
+
+// TODO: funziona che disegna la tabella sulla base dell'array "grid"
+
 
 // Crea le griglie di gioco dei giocatori
-
 function createTable_10_10(id) {
   var div = document.getElementById(id);
   row = null;
@@ -25,7 +73,7 @@ function createTable_10_10(id) {
 
     for (var j = 0; j < 10; j++) {
         cell = row.insertCell();
-        cell.setAttribute("id", id + "_" + i + "_" + j); // attribuisce un id progressivo ad ogni cella
+        cell.setAttribute("id", id + "_" + (i*10+j)); // attribuisce un id progressivo ad ogni cella
         cell.style.backgroundColor = "white";
 
 				// attribuisce la funzione per il setup delle navi sulle celle delle tabella di proprietÃ  del giocatore
@@ -53,14 +101,6 @@ function setup() {
   grid_4.setAttribute("class", "hidden");
 }
 
-// colora le celle durante il posizionamento
-function setShip(td) {
-  if (td.style.backgroundColor === "white") {
-    td.style.backgroundColor = "lightgray";
-  } else if (td.style.backgroundColor === "lightgray") {
-      td.style.backgroundColor = "white";
-  }
-}
 
 // inserisce il paragrafo di istruzioni in console
 
