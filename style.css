@@ -5,6 +5,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-image: url("./images/background_fhd.jpg");
+  /* TODO: controllare dimensione scehrmo con js  */
 }
 
 h1 {
@@ -27,8 +28,14 @@ h4 {
   margin-bottom: 20px;
 }
 
+table {
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
 table td {
     padding: 15px;
+    border: 1px solid black;
 }
 
 /* REGOLE PER CLASSI GENERICHE */
@@ -45,19 +52,8 @@ table td {
   text-shadow: 2px 2px 4px black;
 }
 
-.hidden {
-  display: none;
-}
 
-.inBlock {
-  display: inline-block;
-}
 
-.miniature td {
-  padding: 8px;
-}
-
-.miniature {}
 
 
 /* REGOLE ASSOCIATE AI DIFFERENTI CONTENITORI */
@@ -77,26 +73,13 @@ table td {
   margin: 0;
 }
 
-div.grids {
-/*  border: solid yellow; */
+#grids {
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
-table.grids, table.grids td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-
-table.grids {
-  margin-bottom: 15px;
-}
-
-#grid_1, #grid_2, #grid_3, #grid_4 {
-  margin: 0px 10px 0px 10px;
-  font-size: 80%;
-}
-
-div.console {
+#console {
   min-width: 315px;
   margin: 0 auto;
   border: solid gray;
@@ -105,6 +88,39 @@ div.console {
   width: 50%;
   text-align: center;
 }
+
+/* GRIGLIE */
+
+/* Per gestire le celle della griglia in miniatura */
+.miniature td {
+  padding: 8px;
+}
+
+/* Per gestire le griglie affiancate */
+#grid0, #grid1, #grid2 {
+  display: inline-block;
+  margin: 5px 0;
+  padding: 0;
+}
+
+/* Classi per colorare le celle:
+bianche -> vuote
+grigie -> nave presente
+rosse -> nave colpita
+*/
+.empty, .unknown {
+  background-color: white;
+}
+
+.ship {
+  background-color: lightgray;
+}
+
+.hit {
+  background-color: red;
+}
+
+/* CONSOLE */
 
 p.console {
   color: lightgray;
@@ -131,6 +147,8 @@ table.console {
   width: 50%;
 }
 
+/* BOTTONI */
+
 #buttons {
 /*  border: solid orange; */
   text-align:center;
@@ -154,4 +172,8 @@ table.console {
   background: white;
   border: 1px solid red;
   color: red;
+}
+
+.inBlock {
+  display: inline-block;
 }
