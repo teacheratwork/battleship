@@ -12,25 +12,21 @@ h1 {
   color: black;
   font-family: impact;
   letter-spacing: 1px;
-  padding: 0;
   margin: 5px 0px 0px 0px;
 }
 
 h3 {
   font-family: impact;
-  padding: 0;
   margin: 10px 0;
 }
 
 h4 {
-  padding: 0;
   margin-top: 0;
   margin-bottom: 20px;
 }
 
 table {
   border-collapse: collapse;
-  margin-bottom: 15px;
 }
 
 table td {
@@ -70,13 +66,11 @@ table td {
 #player {
 /*  border: solid blue; */
   text-align: center;
-  margin: 0;
 }
 
 #grids {
   text-align: center;
-  margin: 0;
-  padding: 0;
+  margin-bottom: 10px;
 }
 
 #console {
@@ -100,7 +94,6 @@ table td {
 #grid0, #grid1, #grid2 {
   display: inline-block;
   margin: 5px 0;
-  padding: 0;
 }
 
 /* Classi per colorare le celle:
