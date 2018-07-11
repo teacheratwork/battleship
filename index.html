@@ -4,7 +4,7 @@
   <title>Battleship</title>
   <link rel="stylesheet" type="text/css" href="./style.css">
   <meta charset="utf-8" />
-  <script type="text/javascript" src="code.js"></script> <!-- Il codice presente nel file esterno viene eseguito -->
+  <script type="text/javascript" src="code.js"></script> <!-- Viene richiamato il file con il codice Javascript -->
 </head>
 
 <body>
@@ -20,39 +20,11 @@
       <h3 id="playerTitle">GIOCATORE 1</h3>
     </div>  <!-- Fine giocatore -->
 
-    <div class="grids"> <!-- Inizio GRIGLIE G1-->
-
-      <div id="grid_1">
-        <script type="text/javascript"> // Crea le tabelle 10x10
-          createTable_10_10("grid_1");
-        </script>
-      </div>
-
-      <div id="grid_2">
-        <script type="text/javascript">
-          createTable_10_10("grid_2");
-        </script>
-      </div>
-
+    <div id="grids"> <!-- Inizio GRIGLIE G1-->
     </div>  <!-- Fine GRIGLIE G1 -->
 
-    <div class="grids"> <!-- Inizio GRIGLIE G2-->
-
-      <div id="grid_3">
-        <script type="text/javascript">  // Crea le tabelle 10x10
-          createTable_10_10("grid_3");
-        </script>
-      </div>
-
-      <div id="grid_4">
-        <script type="text/javascript">
-          createTable_10_10("grid_4");
-        </script>
-      </div>
-
-    </div> <!-- Fine GRIGLIE G2 -->
-
-    <script type="text/javascript">setup()</script>
+    <!-- Disegna nel div grids le tabelle a seconda del turno di gioco -->
+    <script type="text/javascript">drawGrids()</script>
 
     <div id="console" class="console"> <!-- Inizio CONSOLE -->
 

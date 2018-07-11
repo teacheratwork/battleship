@@ -2,167 +2,120 @@
 // il cambio di turni e fasi
 // gli eventi principali
 
-
-// Indica il turno di gioco. Se pari, giocatore 1 di turno
-var turn = 0;
+// Indica il turno di gioco. Se dispari, giocatore 1 di turno
+var turn = 1;
 
 // Array di oggetti che indicano lo stato della singola cella della battaglia
-// Nella chiave è presente il nome della cella "A1 - B3 - ecc...."
 // Se lo stato è 0 la cella è vuota
 // Se lo stato è 1 sulla cella c'è una nave
 // Se lo stato è 2 sulla cella c'è una nave colpita
-var status_grid1 = [];
-var status_grid2 = [];
-var status_grids = [0,status_grid1, status_grid2];
+var grid_player1 = [];
+var grid_player2 = [];
+var grids = [0,grid_player1, grid_player2]; // creato per accesso all'array corretto
 
-//controlla se il turno è pari (G1) oppure dispari (G2)
-function isEven(value) {
-  if (value%2 == 0)
-		return true;
+// Crea le griglie di entrambi i giocatori
+createGrids(100);
+
+// Funzione per creare 2 griglie array per la battaglia navale
+// n è il numero di celle totali (default 100)
+function createGrids(n) {
+  for (var x = 0; x < n; x++) {
+    // TODO: inserire indici negli array: "A1, A2, A3, ecc."
+    // var letter = String.fromCharCode(65 + y);
+    // var number = x + 1;
+    // var cell_name = letter + number;
+    grid_player1[x] = 0;
+    grid_player2[x] = 0;
+  }
+}
+
+// Restituisce il giocatore attivo, G1 nei turni dispari e G2 nei turni pari
+function activePlayer() {
+  if (turn%2 == 0)
+		return 1;
 	else
-		return false;
+		return 2;
 }
 
-// Crea le griglie array per la battaglia  navale
-// n è il numero di celle totali (100)
-function createGrids(n)
-{
-  for (var x = 0; x < n; x++)
-  {
-        // var letter = String.fromCharCode(65 + y);
-        // var number = x+1;
-        // var cell_name = letter + number;
-        status_grid1[x] = 0;
-        status_grid2[x] = 0;
+
+// gestisce la creazione delle tabelle a seconda del turno di gioco:
+// nei primi due turni di gioco lancia la funzione drawTable in mode 0 altrimenti mode 1 e 2
+function drawGrids() {
+  if (turn === 0 || turn === 1)
+    drawTable(0);
+  else {
+    drawTable(1);
+    drawTable(2);
   }
 }
 
-// colora le celle durante il posizionamento
-function setShip(td) 
-{
-  var id = td.getAttribute("id");
-  // Recuperiamo la chiave per entrare nell'array
-  var parti = id.split("_");
-  var id = parti[0] + "_" + parti[1];
-  var n_grid = parti[1];   // 1 se grid1, 2 se grid 2
-  var x = parti[2];
-
+// funzione che disegna le tabelle:
+// mode 0 -> disegna una tabella per il posizionamento
+// mode 1 -> una ridotta come reminder della propria griglia
+// mode 2 -> disegna una tabella per colpire
+function drawTable(mode) {
+  // variabile per indicare giocatore di turno
+  player = activePlayer();
   // Recupero l'array corretto
-  var status_grid = status_grids[n_grid];
-
-  // Guardo lo stato della cella
-  var status = status_grid[x];
-
-  // Lo cambio e coloro
-  if (x == 0)
-  {
-    // Aggiungi nave
-    status_grid[x] = 1;
-
-    td.style.backgroundColor = "lightgray";
-  }
-  else
-  {
-    // Rimuovi nave
-    status_grid[x] = 0;
-
-    td.style.backgroundColor = "white";
-  }
-
-}
-
-
-// TODO: funzione che disegna la tabella sulla base dell'array "grid"
-// div_id: div in cui disegnare
-// player_n: numero del giocatore: 1 o 2
-// mode: 0 per remind piccolo della propria plancia, 1 per plancia d'attacco
-function draw_table(div_id, player_n, mode)
-{
-  // Recupero l'array corretto
-  var status_grid = status_grids[player_n];
-
-  var div = document.getElementById(id);
+  var active_grid = grids[player];
+  // Recupero il div nel quale disegnare le tabelle
+  var container = document.getElementById("grids");
   row = null;
   cell = null;
-  var table = document.createElement("table"); // metodo DOM per creare un elemento
-  table.setAttribute("class", "grids"); // metodo DOM per impostare un attributo in un elemento
+  var table = document.createElement("table");
+  table.setAttribute("class", "grid");
 
   for (var i = 0; i < 10; i++) {
-    row = table.insertRow();  // metodo DOM per creare linee nella tabella
+    row = table.insertRow();
 
     for (var j = 0; j < 10; j++) {
         cell_number = (i*10+j);
         cell = row.insertCell();
-        cell.setAttribute("id", id + "_" + cell_number); // attribuisce un id progressivo ad ogni cella
-        
-        // TODO: aggiornare questa parte. andrebbe in css
-        var status = status_grid[cell_number];
+        // TODO: inserire id progressivo ad ogni cella uguale alla chiave dell'array
+        // assegna alle celle classi differenti a seconda del mode
 
-        if (status == 0)
-            cell.style.backgroundColor = "white";
-        if (status == 1)
-            cell.style.backgroundColor = "lightgray";
-        if (status == 2)
-            cell.style.backgroundColor = "red";
+        switch (mode) {
+          case 0:
+            cell.setAttribute("onClick", "setShip()");
+            if (active_grid[cell_number] === 0)
+              cell.setAttribute("class", "empty");
+            else if (active_grid[cell_number] === 1)
+              cell.setAttribute("class", "ship");
+            else if  (active_grid[cell_number] === 2)
+              cell.setAttribute("class", "hit");
+          break;
 
-				// attribuisce la funzione per il setup delle navi sulle celle delle tabella di proprietÃ  del giocatore
-				if (mode == 0) {
-          cell.setAttribute("onclick", "setShip(this)");
-        }
+          case 1:
+            if (active_grid[cell_number] === 0)
+              cell.setAttribute("class", "empty");
+            else if (active_grid[cell_number] === 1)
+              cell.setAttribute("class", "ship");
+            else if  (active_grid[cell_number] === 2)
+              cell.setAttribute("class", "hit");
+            break;
 
-        if (mode == 1) {
-          cell.setAttribute("onclick", "hit(this)");
-        }
-    }
-
-	div.appendChild(table);
-  }
-}
-
-// Crea le griglie di gioco dei giocatori
-function createTable_10_10(id) {
-  var div = document.getElementById(id);
-  row = null;
-  cell = null;
-  var table = document.createElement("table"); // metodo DOM per creare un elemento
-  table.setAttribute("class", "grids"); // metodo DOM per impostare un attributo in un elemento
-
-  for (var i = 0; i < 10; i++) {
-    row = table.insertRow();  // metodo DOM per creare linee nella tabella
-
-    for (var j = 0; j < 10; j++) {
-        cell = row.insertCell();
-        cell.setAttribute("id", id + "_" + (i*10+j)); // attribuisce un id progressivo ad ogni cella
-        cell.style.backgroundColor = "white";
-
-				// attribuisce la funzione per il setup delle navi sulle celle delle tabella di proprietÃ  del giocatore
-				if (id === "grid_1" || id === "grid_3") {
-          cell.setAttribute("onclick", "setShip(this)");
+          case 2:
+            if (active_grid[cell_number] === 0 || active_grid[cell_number] === 1)
+              cell.setAttribute("class", "unknown");
+            else if  (active_grid[cell_number] === 2)
+              cell.setAttribute("class", "hit()");
+          break;
         }
     }
-
-	div.appendChild(table);
   }
+
+  // miniaturizza la tabella se mode = 1
+  if (mode === 1)
+    table.setAttribute("class", "miniature");
+
+  var new_div = document.createElement("DIV");
+  new_div.setAttribute("id", "grid" + mode);
+  new_div.setAttribute("class", "grids");
+	new_div.appendChild(table);
+  container.appendChild(new_div);
 }
 
-
-// setup iniziale: nasconde tutte le celle tranne quella di proprietà  del giocatore 1 (potrebbe anche essere impostato in file CSS)
-
-function setup() {
-  var grid_1 = document.getElementById("grid_1");
-  var grid_2 = document.getElementById("grid_2");
-  var grid_3 = document.getElementById("grid_3");
-  var grid_4 = document.getElementById("grid_4");
-
-  grid_1.setAttribute("class", "inBlock");
-  grid_2.setAttribute("class", "hidden");
-  grid_3.setAttribute("class", "hidden");
-  grid_4.setAttribute("class", "hidden");
-}
-
-
-// inserisce il paragrafo di istruzioni in console
-
+// imposta il messaggio opportuno nella console
 function consoleSettingMsg() {
   var con = document.getElementById("console");
   var par = document.createElement("P");
@@ -173,124 +126,19 @@ function consoleSettingMsg() {
   con.appendChild(par);
 }
 
-// gestisce il termine del setup
+/*
 
+// gestisce il posizionamento delle navi: modifica l'array e colora la cella corrispondente
+function setShip() {
+}
+
+// gestisce il termine dei turni di setup
 function setupDone() {
-  var title = document.getElementById('playerTitle').textContent;
-
-  // mostra le griglie di G1 o di G2 a seconda del turno di gioco, controllo farlocco su title..
-
-  if (isEven(turn)) {
-    grid_1.setAttribute("class", "hidden");
-    grid_3.setAttribute("class", "inBlock"); // visualizzare griglia 3 e nascondere le altre
-    document.getElementById('playerTitle').innerHTML = "GIOCATORE 2";
-    window.alert("Ora lascia che il giocatore 2 posizioni le sue navi!");
-    turn++;
-  } else if (!isEven(turn)) {
-      document.getElementById('playerTitle').innerHTML = "GIOCATORE 1";
-      window.alert("Giocatore 1, preparati a iniziare la partita!");
-
-      // mostra la grglia con le navi di G1,la miniaturizza la blocca da modifiche
-      grid_1.setAttribute("class", "inBlock miniature");
-      for (var i=0; i<10; i++) {
-        for (var j=0; j<10; j++) {
-          cell = document.getElementById("grid_1_"+i+"_"+j);
-          cell.removeAttribute("onclick");
-        }
-      }
-
-      // mostra la griglia di G1 e imposta su ogni cella la funzione per colpire hit()
-
-      grid_2.setAttribute("class", "inBlock");
-      for (var i=0; i<10; i++) {
-        for (var j=0; j<10; j++) {
-          cell = document.getElementById("grid_2_"+i+"_"+j);
-          cell.setAttribute("onclick", "hit(this)");
-        }
-      }
-
-      // nasconde la grglia con le navi di G2,la miniaturizza la blocca da modifiche
-
-      grid_3.setAttribute("class", "hidden miniature");
-      for (var i=0; i<10; i++) {
-        for (var j=0; j<10; j++) {
-          cell = document.getElementById("grid_3_"+i+"_"+j);
-          cell.removeAttribute("onclick");
-        }
-      }
-
-      // nasconde la griglia di G2 e imposta su ogni cella la funzione per colpire hit()
-
-      grid_4.setAttribute("class", "hidden");
-      for (var i=0; i<10; i++) {
-        for (var j=0; j<10; j++) {
-          cell = document.getElementById("grid_4_"+i+"_"+j);
-          cell.setAttribute("onclick", "hit(this)");
-        }
-      }
-
-      // cambia il messaggio in console
-
-      document.getElementById("console_msg").innerHTML = "Colpisci cliccando sulla tabella di destra.<br />(AZZURRO = mancato! - ROSSO = colpito!)";
-
-      // rimuove il tasto FATTO!
-
-      document.getElementById("buttons").setAttribute("class", "hidden");
-
-      turn++;
-    }
+//cancellare il messaggio della console se il turno = 1
 }
 
-function hit(td) {
-
-  var twinTdNum;
-	var flag = false;
-
-  // seleziona il turno del giocatore 1 o 2
-    if (isEven(turn)) {
-    twinTdNum = 3;
-    } else twinTdNum = 1;
-
-  var twinId = "grid_"+ twinTdNum + "_" + td.id.slice(7);
-  var color = document.getElementById(twinId).style.backgroundColor;
-  var twinTd = document.getElementById(twinId);
-
-			if (color === "lightblue" || color === "red") {
-				alert("Casella giÃ  colpita!");
-			} else if (color === "white") {
-      	td.style.backgroundColor = "lightblue";
-				// rimuovere le tabelle prima del cambio GIOCATORE
-      	alert("MANCATO!\nIl gioco passa al tuo avversario!");
-    	} else if (color === "lightgray") {
-      	td.style.backgroundColor = "red";
-      	twinTd.style.backgroundColor = "red";
-				// rimuovere le tabelle prima del cambio GIOCATORE (diffioltà : gli alert vengono eseguiti prima delle modifiche ad html)
-      	alert("COLPITO!\nIl gioco passa al tuo avversario!");
-    }
-
-		// manca controllo vincitore
-			turn++;
-    	changePlayer();
-
+// funzione per colpire
+hit() {
 }
 
-function changePlayer (){
-  var grid_1 = document.getElementById("grid_1");
-  var grid_2 = document.getElementById("grid_2");
-  var grid_3 = document.getElementById("grid_3");
-  var grid_4 = document.getElementById("grid_4");
-
-  if (isEven(turn)) {
-    document.getElementById('playerTitle').innerHTML = "GIOCATORE 1";
-    grid_1.setAttribute("class", "inBlock miniature");
-    grid_2.setAttribute("class", "inBlock");
-    grid_3.setAttribute("class", "hidden");
-    grid_4.setAttribute("class", "hidden");
-  } else if (!isEven(turn)) {
-    document.getElementById('playerTitle').innerHTML = "GIOCATORE 2";
-    grid_1.setAttribute("class", "hidden");
-    grid_2.setAttribute("class", "hidden");
-    grid_3.setAttribute("class", "inBlock miniature");
-    grid_4.setAttribute("class", "inBlock");
-  }
-}
+*/
