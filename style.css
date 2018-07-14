@@ -49,9 +49,6 @@ table td {
 }
 
 
-
-
-
 /* REGOLE ASSOCIATE AI DIFFERENTI CONTENITORI */
 
 #container {
@@ -83,6 +80,7 @@ table td {
   text-align: center;
 }
 
+
 /* GRIGLIE */
 
 /* Per gestire le celle della griglia in miniatura */
@@ -113,6 +111,7 @@ rosse -> nave colpita
   background-color: red;
 }
 
+
 /* CONSOLE */
 
 p.console {
@@ -139,6 +138,7 @@ table.console {
   margin: 15px auto;
   width: 50%;
 }
+
 
 /* BOTTONI */
 
