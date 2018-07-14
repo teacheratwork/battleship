@@ -20,10 +20,6 @@ createGrids(100);
 // n è il numero di celle totali (default 100)
 function createGrids(n) {
   for (var x = 0; x < n; x++) {
-    // TODO: inserire indici negli array: "A1, A2, A3, ecc."
-    // var letter = String.fromCharCode(65 + y);
-    // var number = x + 1;
-    // var cell_name = letter + number;
     grid_player1[x] = 0;
     grid_player2[x] = 0;
   }
@@ -71,9 +67,7 @@ function drawTable(mode) {
     for (var j = 0; j < 10; j++) {
         cell_number = (i*10+j);
         cell = row.insertCell();
-        // TODO: inserire id progressivo ad ogni cella uguale alla chiave dell'array
-        // assegna alle celle classi differenti a seconda del mode
-
+        cell.setAttribute("id", cell_number); // assegna alle celle classi differenti a seconda del mode
         switch (mode) {
           case 0:
             cell.setAttribute("onClick", "setShip()");
