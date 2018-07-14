@@ -28,9 +28,9 @@ function createGrids(n) {
 // Restituisce il giocatore attivo, G1 nei turni dispari e G2 nei turni pari
 function activePlayer() {
   if (turn%2 == 0)
-		return 1;
-	else
 		return 2;
+	else
+		return 1;
 }
 
 
@@ -51,7 +51,7 @@ function drawGrids() {
 // mode 2 -> disegna una tabella per colpire
 function drawTable(mode) {
   // variabile per indicare giocatore di turno
-  player = activePlayer();
+  var player = activePlayer();
   // Recupero l'array corretto
   var active_grid = grids[player];
   // Recupero il div nel quale disegnare le tabelle
@@ -70,7 +70,7 @@ function drawTable(mode) {
         cell.setAttribute("id", cell_number); // assegna alle celle classi differenti a seconda del mode
         switch (mode) {
           case 0:
-            cell.setAttribute("onClick", "setShip()");
+            cell.setAttribute("onClick", "setShip(this)");
             if (active_grid[cell_number] === 0)
               cell.setAttribute("class", "empty");
             else if (active_grid[cell_number] === 1)
@@ -120,12 +120,24 @@ function consoleSettingMsg() {
   con.appendChild(par);
 }
 
-/*
+
 
 // gestisce il posizionamento delle navi: modifica l'array e colora la cella corrispondente
-function setShip() {
+function setShip(td) {
+  var player = activePlayer();
+  var cell = td.id;
+  var active_grid = grids[player];
+  // l'id della cella cliccata funge da indice per l'array
+  // il click cambia valore nell'array e classe al td della cella
+  if (active_grid[cell] === 0) {
+    active_grid[cell] = 1;
+    td.setAttribute ("class", "ship");
+  } else if (active_grid[cell] === 1) {
+      active_grid[cell] = 0;
+      td.setAttribute ("class","empty");
+  }
 }
-
+/*
 // gestisce il termine dei turni di setup
 function setupDone() {
 //cancellare il messaggio della console se il turno = 1
