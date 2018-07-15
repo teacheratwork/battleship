@@ -33,11 +33,16 @@ function activePlayer() {
 		return 1;
 }
 
+// gestisce il giocatore indicato nell'intestazione della pagina innerHTML
+function setPlayer() {
+  var activePl = activePlayer();
+  document.getElementById("playerTitle").innerHTML = "GIOCATORE " + activePl;
+}
 
 // gestisce la creazione delle tabelle a seconda del turno di gioco:
 // nei primi due turni di gioco lancia la funzione drawTable in mode 0 altrimenti mode 1 e 2
 function drawGrids() {
-  if (turn === 0 || turn === 1)
+  if (turn === 1 || turn === 2)
     drawTable(0);
   else {
     drawTable(1);
@@ -59,6 +64,7 @@ function drawTable(mode) {
   row = null;
   cell = null;
   var table = document.createElement("table");
+  table.setAttribute("id", "active_table");
   table.setAttribute("class", "grid");
 
   for (var i = 0; i < 10; i++) {
@@ -137,14 +143,25 @@ function setShip(td) {
       td.setAttribute ("class","empty");
   }
 }
-/*
+
 // gestisce il termine dei turni di setup
 function setupDone() {
-//cancellare il messaggio della console se il turno = 1
+  // rimuove le istruzioni di piazzamento al termine del secondo turno
+  if (turn === 2) {
+    var cons = document.getElementById("console");
+    cons.removeChild("console_msg");
+  }
+  // cancella la griglia attiva
+  var tableContainer = document.getElementById("grids");
+  tableContainer.removeChild(document.getElementById("grid0"));
+  // cambio turno
+  turn ++;
+  // diesgna la griglia adatta al turno di gioco
+  drawGrids();
 }
 
+/*
 // funzione per colpire
 hit() {
 }
-
 */
