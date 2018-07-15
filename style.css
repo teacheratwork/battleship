@@ -27,6 +27,7 @@ h4 {
 
 table {
   border-collapse: collapse;
+  margin: 0 10px;
 }
 
 table td {
