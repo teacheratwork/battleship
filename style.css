@@ -112,6 +112,10 @@ rosse -> nave colpita
   background-color: red;
 }
 
+.missed {
+  background-color: lightblue;
+}
+
 
 /* CONSOLE */
 

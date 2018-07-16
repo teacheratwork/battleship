@@ -9,6 +9,7 @@ var turn = 1;
 // Se lo stato è 0 la cella è vuota
 // Se lo stato è 1 sulla cella c'è una nave
 // Se lo stato è 2 sulla cella c'è una nave colpita
+// Se lo stato è 3 indic mancato
 var grid_player1 = [];
 var grid_player2 = [];
 var grids = [0,grid_player1, grid_player2]; // creato per accesso all'array corretto
@@ -32,6 +33,15 @@ function activePlayer() {
 	else
 		return 1;
 }
+
+// Restituisce il giocatore non di turno
+function opponentPlayer(){
+  if (turn%2 == 0)
+    return 1;
+  else
+    return 2;
+}
+
 
 // gestisce il giocatore indicato nell'intestazione della pagina innerHTML
 function setPlayer() {
@@ -57,8 +67,12 @@ function drawGrids() {
 function drawTable(mode) {
   // variabile per indicare giocatore di turno
   var player = activePlayer();
-  // Recupero l'array corretto
+  // variabile per indicare giocatore avversario
+  var opponent = opponentPlayer();
+  // Recupero l'array del giocatore di turno
   var active_grid = grids[player];
+  // Recuper l'array del giocatore avversario
+  var opponent_grid = grids[opponent];
   // Recupero il div nel quale disegnare le tabelle
   var container = document.getElementById("grids");
   row = null;
@@ -66,7 +80,7 @@ function drawTable(mode) {
   var table = document.createElement("table");
   table.setAttribute("id", "active_table");
   table.setAttribute("class", "grid");
-// imposta il nome del giocatore nell'intestazione
+  // imposta il nome del giocatore nell'intestazione
   setPlayer();
 
   for (var i = 0; i < 10; i++) {
@@ -85,6 +99,8 @@ function drawTable(mode) {
               cell.setAttribute("class", "ship");
             else if  (active_grid[cell_number] === 2)
               cell.setAttribute("class", "hit");
+              else if  (active_grid[cell_number] === 3)
+                cell.setAttribute("class", "missed");
           break;
 
           case 1:
@@ -94,15 +110,19 @@ function drawTable(mode) {
               cell.setAttribute("class", "ship");
             else if  (active_grid[cell_number] === 2)
               cell.setAttribute("class", "hit");
+            else if  (active_grid[cell_number] === 3)
+              cell.setAttribute("class", "missed");
             break;
 
           case 2:
-            if (active_grid[cell_number] === 0 || active_grid[cell_number] === 1) {
+            if (opponent_grid[cell_number] === 0 || opponent_grid[cell_number] === 1) {
               cell.setAttribute("class", "unknown");
               cell.setAttribute("onClick", "hit(this)");
             }
-            else if  (active_grid[cell_number] === 2)
+            else if  (opponent_grid[cell_number] === 2)
               cell.setAttribute("class", "hit");
+            else if  (opponent_grid[cell_number] === 3)
+              cell.setAttribute("class", "missed");
           break;
         }
     }
@@ -147,21 +167,26 @@ function setShip(td) {
   }
 }
 
-
+// TODO: sistemare funzione deleteGrids()
 // cancella la griglia attiva
-function deleteActiveGrid() {
+function deleteGrids() {
   var tableContainer = document.getElementById("grids");
-  tableContainer.removeChild(document.getElementById("grid0"));
+  //contiene le tabele visibili per la cancellazione
 }
 
 // gestisce il termine dei turni di setup
 function setupDone() {
-  // rimuove le istruzioni di piazzamento al termine del secondo turno
+  var buttonContainer = document.getElementById("buttons");
+  var consoleContainer = document.getElementById("console");
+
   if (turn === 2) {
-    var consoleContainer = document.getElementById("console");
+    // rimuove le istruzioni di piazzamento al termine del secondo turno
     consoleContainer.removeChild(document.getElementById("console_msg"));
+    // rimuove il bottone FATTO
+    buttonContainer.removeChild(document.getElementById("button"));
   }
-  deleteActiveGrid();
+  // rimuove la griglia attiva
+  deleteGrids();
   // cambio turno
   turn ++;
   // diesgna la griglia adatta al turno di gioco
@@ -171,29 +196,29 @@ function setupDone() {
 
 // funzione per colpire
 // Reminder:
-// Se lo stato è 0 la cella è vuota
-// Se lo stato è 1 sulla cella c'è una nave
-// Se lo stato è 2 sulla cella c'è una nave colpita
+// Stato = 0 la cella è vuota
+// Stato = 1 sulla cella c'è una nave
+// Stato = 2 sulla cella c'è una nave colpita
+// Stato = 3 indica mancato
 function hit(td) {
-  var player = activePlayer();
-  var cell = td.id;
-  var active_grid = grids[player];
+  var opponent = opponentPlayer();
   // l'id della cella cliccata funge da indice per l'array
+  var cell = td.id;
+  var opponent_grid = grids[opponent];
 
-  if (active_grid[cell] === 0) {
+  if (opponent_grid[cell] === 0) {
     // setta un div di messaggio MANCATO
-    // cambia lo stato della cella a "missed"
-    // TODO: aggiungere quarto stato nella griglia per mancato
-    deleteActiveGrid();
+    opponent_grid[cell] = 3;
+    deleteGrids();
     turn++;
     drawGrids();
-  } else if (active_grid[cell] === 1) {
+  } else if (opponent_grid[cell] === 1) {
     // setta un div di messaggio COLPITA
-    // cambia lo stato della cella a 2
-    deleteActiveGrid();
+    opponent_grid[cell] = 2;
+    deleteGrids();
     turn++;
     drawGrids();
-  } else if (active_grid[cell] === 2) {
-    // setta un div di messaggio "CASELLA GIÀ COLPITA"
+  } else if (opponent_grid[cell] === 2 || opponent_grid[cell] === 3) {
+      alert("CASELLA GIÀ COLPITA!");
   }
 }
