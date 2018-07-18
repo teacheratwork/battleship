@@ -91,6 +91,7 @@ function drawTable(mode) {
         cell = row.insertCell();
         cell.setAttribute("id", cell_number); // assegna alle celle classi differenti a seconda del mode
         switch (mode) {
+          // disegna la griglia per il posizionamento delle navi
           case 0:
             cell.setAttribute("onClick", "setShip(this)");
             if (active_grid[cell_number] === 0)
@@ -102,7 +103,7 @@ function drawTable(mode) {
               else if  (active_grid[cell_number] === 3)
                 cell.setAttribute("class", "missed");
           break;
-
+          // disegna la propria griglia in versione ridotta come reminder
           case 1:
             if (active_grid[cell_number] === 0)
               cell.setAttribute("class", "empty");
@@ -113,7 +114,7 @@ function drawTable(mode) {
             else if  (active_grid[cell_number] === 3)
               cell.setAttribute("class", "missed");
             break;
-
+          // disegna la griglia dell'avversario per colpire
           case 2:
             if (opponent_grid[cell_number] === 0 || opponent_grid[cell_number] === 1) {
               cell.setAttribute("class", "unknown");
@@ -167,8 +168,7 @@ function setShip(td) {
   }
 }
 
-// TODO: sistemare funzione deleteGrids()
-// cancella la griglia attiva
+// cancella le griglie visibili
 function deleteGrids() {
   //recupera il div contenitore delle griglie
   var tableContainer = document.getElementById("grids");
@@ -187,6 +187,7 @@ function setupDone() {
     // rimuove il bottone FATTO
     buttonContainer.removeChild(document.getElementById("button"));
   }
+  // TODO: sostituire con funzione changeTurn()
   // rimuove la griglia attiva
   deleteGrids();
   // cambio turno
@@ -209,13 +210,13 @@ function hit(td) {
   var opponent_grid = grids[opponent];
 
   if (opponent_grid[cell] === 0) {
-    // setta un div di messaggio MANCATO
+    // TODO: inserire un div di messaggio MANCATO con bottone a funzione changeTurn()
     opponent_grid[cell] = 3;
     deleteGrids();
     turn++;
     drawGrids();
   } else if (opponent_grid[cell] === 1) {
-    // setta un div di messaggio COLPITA
+    // TODO: inserire un div di messaggio COLPITO con bottone a funzione changeTurn()
     opponent_grid[cell] = 2;
     deleteGrids();
     turn++;
