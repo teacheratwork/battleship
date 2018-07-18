@@ -2,7 +2,7 @@
 
 body {
   margin: 0;
-  padding: 0;
+  padding: 10px 0;
   box-sizing: border-box;
   background-image: url("./images/background_fhd.jpg");
   /* TODO: controllare dimensione scehrmo con js per impostare bg adeguato */
