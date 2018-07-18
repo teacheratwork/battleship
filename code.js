@@ -170,8 +170,10 @@ function setShip(td) {
 // TODO: sistemare funzione deleteGrids()
 // cancella la griglia attiva
 function deleteGrids() {
+  //recupera il div contenitore delle griglie
   var tableContainer = document.getElementById("grids");
-  //contiene le tabele visibili per la cancellazione
+
+  tableContainer.innerHTML = "";
 }
 
 // gestisce il termine dei turni di setup
