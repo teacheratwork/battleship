@@ -16,7 +16,7 @@ h1 {
 }
 
 h3 {
-  font-family: impact;
+  font-family: verdana, arial;
   margin: 10px 0;
 }
 
@@ -81,7 +81,12 @@ table td {
   text-align: center;
 }
 
-
+#hit_message_div {
+  width: 50%;
+  opacity: 0.8;
+  padding: 15px 10px;
+  margin: 10px auto;
+}
 /* GRIGLIE */
 
 /* Per gestire le celle della griglia in miniatura */
@@ -153,7 +158,7 @@ table.console {
   margin-top: 20px;
 }
 
-#buttons a {
+a.button {
   width: 80px;
   background: red;
   border: 1px solid red;
@@ -166,7 +171,7 @@ table.console {
   letter-spacing: 2px;
 }
 
-#buttons a:hover {
+a:hover.button {
   background: white;
   border: 1px solid red;
   color: red;
@@ -174,4 +179,8 @@ table.console {
 
 .inBlock {
   display: inline-block;
+}
+
+#hit_message_button {
+  margin: 20px;
 }

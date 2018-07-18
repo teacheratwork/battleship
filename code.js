@@ -179,15 +179,20 @@ function deleteGrids() {
 // gestisce il termine dei turni di setup
 function setupDone() {
   var buttonContainer = document.getElementById("buttons");
-  var consoleContainer = document.getElementById("console");
+  var consoleContainer = document.getElementById("console_msg");
 
   if (turn === 2) {
     // rimuove le istruzioni di piazzamento al termine del secondo turno
-    consoleContainer.removeChild(document.getElementById("console_msg"));
+    consoleContainer.innerHTML = "Colpisci l'avversario utilizzando la griglia di destra. A sinistra hai una miniatura della tua situazione attuale.";
     // rimuove il bottone FATTO
     buttonContainer.removeChild(document.getElementById("button"));
+
   }
-  // TODO: sostituire con funzione changeTurn()
+  changeTurn();
+}
+
+// gestisce il cambio turno
+function changeTurn() {
   // rimuove la griglia attiva
   deleteGrids();
   // cambio turno
@@ -195,7 +200,6 @@ function setupDone() {
   // diesgna la griglia adatta al turno di gioco
   drawGrids();
 }
-
 
 // funzione per colpire
 // Reminder:
@@ -210,18 +214,41 @@ function hit(td) {
   var opponent_grid = grids[opponent];
 
   if (opponent_grid[cell] === 0) {
-    // TODO: inserire un div di messaggio MANCATO con bottone a funzione changeTurn()
     opponent_grid[cell] = 3;
-    deleteGrids();
-    turn++;
-    drawGrids();
+    showHitMsg(false);
   } else if (opponent_grid[cell] === 1) {
-    // TODO: inserire un div di messaggio COLPITO con bottone a funzione changeTurn()
     opponent_grid[cell] = 2;
-    deleteGrids();
-    turn++;
-    drawGrids();
+    showHitMsg(true);
+    // TODO: aggiungere controllo fine partita 
   } else if (opponent_grid[cell] === 2 || opponent_grid[cell] === 3) {
       alert("CASELLA GIÀ COLPITA!");
+  }
+}
+
+
+// gestisce il messaggio di feedback dopo un colpo sparato
+function showHitMsg(hit){
+  var grid_div = document.getElementById("grids");
+  //cancella le grilglie e inserisce un div con un paragrafo per il feedback del colpo
+  grid_div.innerHTML = "";
+  var hit_message_div = document.createElement("DIV");
+  var hit_message = document.createElement("P");
+  var hit_message_button = document.createElement("A");
+  hit_message_div.setAttribute("id", "hit_message_div");
+  hit_message.setAttribute("id", "hit_message");
+  hit_message_button.setAttribute("id", "hit_message_button");
+  hit_message_button.setAttribute("onClick", "changeTurn()");
+  hit_message_button.setAttribute("class", "button");
+  hit_message_button.innerHTML = "OK";
+  hit_message_div.appendChild(hit_message);
+  grid_div.appendChild(hit_message_div);
+  hit_message_div.appendChild(hit_message_button);
+  //se la nave è stata colpita inserisce il testo COLPITO e setta la classe del div per uno sfondo rosso
+  if (hit) {
+    hit_message_div.setAttribute("class", "hit");
+    hit_message.innerHTML = "<h1>NAVE COLPITA!</h1><br /><br /><h3><b>GIOCATORE " + activePlayer() + ":</b><br />distogli lo sguardo e lascia i comandi al tuo avversario.<br /><br />GIOCATORE " + opponentPlayer() + ":<br />premi OK per cominciare il tuo turno.</h3>";
+  } else {
+    hit_message_div.setAttribute("class", "missed");
+    hit_message.innerHTML = "<h1>NAVE MANCATA!</h1><br /><br /><h3><b>GIOCATORE " + activePlayer() + ":</b><br />distogli lo sguardo e lascia i comandi al tuo avversario.<br /><br />GIOCATORE " + opponentPlayer() + ":<br />premi OK per cominciare il tuo turno.</h3>";
   }
 }
