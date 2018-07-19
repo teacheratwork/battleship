@@ -197,6 +197,7 @@ function changeTurn() {
   deleteGrids();
   // cambio turno
   turn ++;
+
   // diesgna la griglia adatta al turno di gioco
   drawGrids();
 }
@@ -212,14 +213,25 @@ function hit(td) {
   // l'id della cella cliccata funge da indice per l'array
   var cell = td.id;
   var opponent_grid = grids[opponent];
+  var flag = 0;
 
   if (opponent_grid[cell] === 0) {
     opponent_grid[cell] = 3;
-    showHitMsg(false);
+    // passa parmetro 0 se la nave è mancata
+    showHitMsg(0);
   } else if (opponent_grid[cell] === 1) {
-    opponent_grid[cell] = 2;
-    showHitMsg(true);
-    // TODO: aggiungere controllo fine partita 
+      opponent_grid[cell] = 2;
+      // scorre l'array dell'avversario per controllare se ci sono ancora navi non affondate
+      for (var i=0; i<100; i++) {
+        if (opponent_grid[i] === 1) {
+          flag = 1;
+        }
+      }
+    // passa parametro 1 se la nave è colpita ma ci sono ancora navi nella griglia avversaria, 2 altrimenti
+    if (flag === 0)
+      showHitMsg(2);
+    else if (flag === 1)
+      showHitMsg(1);
   } else if (opponent_grid[cell] === 2 || opponent_grid[cell] === 3) {
       alert("CASELLA GIÀ COLPITA!");
   }
@@ -237,18 +249,27 @@ function showHitMsg(hit){
   hit_message_div.setAttribute("id", "hit_message_div");
   hit_message.setAttribute("id", "hit_message");
   hit_message_button.setAttribute("id", "hit_message_button");
-  hit_message_button.setAttribute("onClick", "changeTurn()");
   hit_message_button.setAttribute("class", "button");
   hit_message_button.innerHTML = "OK";
   hit_message_div.appendChild(hit_message);
   grid_div.appendChild(hit_message_div);
-  hit_message_div.appendChild(hit_message_button);
   //se la nave è stata colpita inserisce il testo COLPITO e setta la classe del div per uno sfondo rosso
-  if (hit) {
+  if (hit === 1) {
     hit_message_div.setAttribute("class", "hit");
-    hit_message.innerHTML = "<h1>NAVE COLPITA!</h1><br /><br /><h3><b>GIOCATORE " + activePlayer() + ":</b><br />distogli lo sguardo e lascia i comandi al tuo avversario.<br /><br />GIOCATORE " + opponentPlayer() + ":<br />premi OK per cominciare il tuo turno.</h3>";
-  } else {
+    hit_message.innerHTML = "<h3>Distogli lo sguardo e lascia i comandi al tuo avversario.</h3><h3>Premi OK per cominciare il tuo turno.<br /><br /></h3><h1>NAVE COLPITA!</h1>";
+    hit_message_button.setAttribute("onClick", "changeTurn()");
+    hit_message_div.appendChild(hit_message_button);
+  } else if (hit === 0) {
     hit_message_div.setAttribute("class", "missed");
-    hit_message.innerHTML = "<h1>NAVE MANCATA!</h1><br /><br /><h3><b>GIOCATORE " + activePlayer() + ":</b><br />distogli lo sguardo e lascia i comandi al tuo avversario.<br /><br />GIOCATORE " + opponentPlayer() + ":<br />premi OK per cominciare il tuo turno.</h3>";
-  }
+    hit_message.innerHTML = "<h3>Distogli lo sguardo e lascia i comandi al tuo avversario.</h3><h3>Premi OK per cominciare il tuo turno.<br /><br /></h3><h1>NAVE MANCATA!</h1>";
+    hit_message_button.setAttribute("onClick", "changeTurn()");
+    hit_message_div.appendChild(hit_message_button);
+  } else if (hit === 2) {
+    hit_message_div.setAttribute("class", "hit");
+    hit_message.innerHTML = "<h1>PARTITA FINITA</h1><h1>GIOCATORE " + activePlayer() + " VINCE!<br /><br /><h3>Premi RICARICA per giocare un'altra partita</h3>";
+    // aggiorna la pagina al termine della partia
+    hit_message_button.setAttribute("onClick", "location.reload()");
+    hit_message_button.innerHTML = "RICARICA";
+    hit_message_div.appendChild(hit_message_button);
+    }
 }
