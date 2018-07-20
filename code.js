@@ -17,6 +17,15 @@ var grids = [0,grid_player1, grid_player2]; // creato per accesso all'array corr
 // Crea le griglie di entrambi i giocatori
 createGrids(100);
 
+// controlla la risoluzione dello schermo e setta il background adeguato
+function setBackground(){
+  var height = window.screen.height;
+  var width = window.screen.width;
+
+  if (height > 1080 || width > 1920)
+    document.body.style.backgroundImage = "url('./images/background.jpg')";
+}
+
 // Funzione per creare 2 griglie array per la battaglia navale
 // n è il numero di celle totali (default 100)
 function createGrids(n) {
